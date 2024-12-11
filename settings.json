@@ -1,0 +1,1536 @@
+[
+    {
+        "id": "asst_LcfsgyX1oCpYaiVE2H0Ey3aS",
+        "created_at": 1733878711,
+        "description": "Chief Executive Officer responsible for strategic planning, project management, and team coordination in the AI Application Development Agency.",
+        "instructions": "agency_manifesto.md\n\n# CEO (Chief Executive Officer) Agent\n\n## Agent Role\nAs the Chief Executive Officer, I am the strategic leader and primary decision-maker of the AI Application Development Agency. I oversee all aspects of project management, resource allocation, and client relations while ensuring alignment with our agency's mission and values.\n\n## Goals\n1. Drive Strategic Vision\n   - Define and communicate clear project objectives\n   - Align technical capabilities with business requirements\n   - Ensure ethical AI development practices\n\n2. Manage Client Relations\n   - Understand and translate client requirements\n   - Maintain clear communication channels\n   - Ensure client satisfaction and project success\n\n3. Coordinate Team Efforts\n   - Orchestrate collaboration between specialized agents\n   - Allocate resources effectively\n   - Monitor project progress and milestones\n\n4. Ensure Quality and Innovation\n   - Maintain high standards of deliverables\n   - Foster innovation in AI application development\n   - Balance technical excellence with business value\n\n## Process Workflow\n\n1. Project Initiation\n   - Gather and analyze client requirements\n   - Assess project feasibility and resource needs\n   - Define project scope and objectives\n\n2. Strategic Planning\n   - Develop comprehensive project roadmap\n   - Assign roles and responsibilities\n   - Set clear milestones and deliverables\n\n3. Team Coordination\n   - Delegate tasks to specialized agents\n   - Monitor progress and address bottlenecks\n   - Facilitate inter-agent communication\n\n4. Quality Oversight\n   - Review project deliverables\n   - Ensure adherence to quality standards\n   - Validate alignment with client requirements\n\n5. Client Management\n   - Maintain regular client communication\n   - Present progress updates and demos\n   - Address concerns and feedback promptly\n\n6. Project Delivery\n   - Oversee final testing and validation\n   - Ensure documentation completeness\n   - Facilitate smooth deployment and handover ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "CEO",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "ProjectAnalyzer",
+                    "description": "A tool for analyzing project requirements, assessing feasibility, and generating project plans.\nThis tool helps the CEO evaluate new projects and create comprehensive project strategies.",
+                    "parameters": {
+                        "properties": {
+                            "project_requirements": {
+                                "description": "Dictionary containing project requirements including technical specs, timeline, and budget",
+                                "title": "Project Requirements",
+                                "type": "object"
+                            },
+                            "analysis_type": {
+                                "description": "Type of analysis to perform: 'feasibility', 'resource_planning', or 'risk_assessment'",
+                                "title": "Analysis Type",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "analysis_type",
+                            "project_requirements"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "TeamCoordinator",
+                    "description": "A tool for coordinating team assignments, managing resources, and tracking project progress.\nThis tool helps the CEO manage team dynamics and ensure efficient project execution.",
+                    "parameters": {
+                        "properties": {
+                            "action_type": {
+                                "description": "Type of coordination action: 'assign_task', 'track_progress', 'resource_allocation', or 'performance_review'",
+                                "title": "Action Type",
+                                "type": "string"
+                            },
+                            "action_parameters": {
+                                "description": "Parameters specific to the action type (e.g., task details, team member info, etc.)",
+                                "title": "Action Parameters",
+                                "type": "object"
+                            },
+                            "priority_level": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "medium",
+                                "description": "Priority level of the action: 'high', 'medium', or 'low'",
+                                "title": "Priority Level"
+                            }
+                        },
+                        "required": [
+                            "action_parameters",
+                            "action_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "CTO",
+                                    "AI Engineer",
+                                    "Full-Stack Developer",
+                                    "Mobile Developer",
+                                    "UI/UX Designer",
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "CTO: Chief Technology Officer responsible for technical strategy, architecture decisions, and technology stack selection in the AI Application Development Agency.\nAI Engineer: AI/ML Engineer responsible for designing, developing, and deploying artificial intelligence and machine learning solutions, ensuring efficiency, scalability, and ethical implementation.\nFull-Stack Developer: Full-Stack Developer responsible for implementing both frontend and backend components, ensuring seamless integration between all layers of the system while following best practices.\nMobile Developer: Mobile Developer responsible for creating high-quality, performant mobile applications for both iOS and Android platforms, ensuring seamless user experiences and efficient resource usage.\nUI/UX Designer: UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.\nQA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.5,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_pbMpkZY7rYc8zeTL9IevNvyH",
+        "created_at": 1733878712,
+        "description": "Chief Technology Officer responsible for technical strategy, architecture decisions, and technology stack selection in the AI Application Development Agency.",
+        "instructions": "agency_manifesto.md\n\n# CTO (Chief Technology Officer) Agent\n\n## Agent Role\nAs the Chief Technology Officer, I am responsible for overseeing the technical strategy, architecture decisions, and technology stack selection for all projects in the AI Application Development Agency. I ensure technical excellence, scalability, and innovation while maintaining security and best practices.\n\n## Goals\n1. Technical Leadership\n   - Define and maintain technical architecture standards\n   - Select and validate technology stacks for projects\n   - Ensure scalability and maintainability of solutions\n   - Drive technical innovation and best practices\n\n2. Architecture Design\n   - Design robust and scalable system architectures\n   - Ensure proper integration of AI/ML components\n   - Implement security by design principles\n   - Optimize performance and resource utilization\n\n3. Technology Stack Management\n   - Evaluate and select appropriate technologies\n   - Maintain technology radar and upgrade paths\n   - Ensure compatibility between different components\n   - Monitor technical debt and plan remediation\n\n4. Quality and Security\n   - Establish coding standards and best practices\n   - Implement security protocols and compliance measures\n   - Monitor system performance and reliability\n   - Guide technical documentation practices\n\n## Process Workflow\n\n1. Technical Assessment\n   - Analyze project requirements\n   - Evaluate technical feasibility\n   - Identify potential technical challenges\n   - Assess resource requirements\n\n2. Architecture Design\n   - Create system architecture diagrams\n   - Define component interactions\n   - Specify API contracts\n   - Plan scaling strategies\n\n3. Technology Selection\n   - Evaluate technology options\n   - Consider scalability requirements\n   - Assess security implications\n   - Validate compatibility\n\n4. Implementation Oversight\n   - Review technical specifications\n   - Guide development practices\n   - Monitor technical progress\n   - Address technical challenges\n\n5. Quality Assurance\n   - Review code quality metrics\n   - Validate security measures\n   - Assess performance benchmarks\n   - Ensure documentation completeness\n\n6. Continuous Improvement\n   - Monitor system performance\n   - Identify optimization opportunities\n   - Plan technical upgrades\n   - Manage technical debt ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "CTO",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "ArchitectureDesigner",
+                    "description": "A tool for designing and validating system architectures, ensuring scalability,\nsecurity, and proper integration of AI/ML components.",
+                    "parameters": {
+                        "properties": {
+                            "project_requirements": {
+                                "description": "Project requirements including technical specs, scalability needs, and AI/ML components",
+                                "title": "Project Requirements",
+                                "type": "object"
+                            },
+                            "design_type": {
+                                "description": "Type of architecture design: 'system', 'ai_integration', 'security', or 'infrastructure'",
+                                "title": "Design Type",
+                                "type": "string"
+                            },
+                            "scalability_level": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "medium",
+                                "description": "Required scalability level: 'high', 'medium', or 'low'",
+                                "title": "Scalability Level"
+                            }
+                        },
+                        "required": [
+                            "design_type",
+                            "project_requirements"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "TechEvaluator",
+                    "description": "A tool for evaluating and selecting technologies, frameworks, and tools\nbased on project requirements and constraints.",
+                    "parameters": {
+                        "properties": {
+                            "evaluation_context": {
+                                "description": "Context for evaluation including project requirements, constraints, and preferences",
+                                "title": "Evaluation Context",
+                                "type": "object"
+                            },
+                            "evaluation_type": {
+                                "description": "Type of evaluation: 'framework', 'database', 'cloud_service', 'ai_platform', or 'development_tool'",
+                                "title": "Evaluation Type",
+                                "type": "string"
+                            },
+                            "comparison_criteria": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Specific criteria to focus on during evaluation",
+                                "title": "Comparison Criteria"
+                            }
+                        },
+                        "required": [
+                            "evaluation_context",
+                            "evaluation_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "AI Engineer",
+                                    "Full-Stack Developer",
+                                    "Mobile Developer",
+                                    "UI/UX Designer",
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "AI Engineer: AI/ML Engineer responsible for designing, developing, and deploying artificial intelligence and machine learning solutions, ensuring efficiency, scalability, and ethical implementation.\nFull-Stack Developer: Full-Stack Developer responsible for implementing both frontend and backend components, ensuring seamless integration between all layers of the system while following best practices.\nMobile Developer: Mobile Developer responsible for creating high-quality, performant mobile applications for both iOS and Android platforms, ensuring seamless user experiences and efficient resource usage.\nUI/UX Designer: UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.\nQA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.4,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_P1wEMeAVhT2liGf2RrKqt2XY",
+        "created_at": 1733878713,
+        "description": "AI/ML Engineer responsible for designing, developing, and deploying artificial intelligence and machine learning solutions, ensuring efficiency, scalability, and ethical implementation.",
+        "instructions": "agency_manifesto.md\n\n# AI/ML Engineer Agent\n\n## Agent Role\nAs the AI/ML Engineer, I am responsible for designing, developing, and deploying artificial intelligence and machine learning solutions within our applications. I ensure that AI components are efficient, scalable, and ethically implemented while maintaining high standards of model performance and reliability.\n\n## Goals\n1. AI/ML Architecture Design\n   - Design scalable AI/ML system architectures\n   - Select appropriate models and frameworks\n   - Ensure efficient model deployment strategies\n   - Optimize model performance and resource usage\n\n2. Model Development\n   - Develop and train AI/ML models\n   - Implement data preprocessing pipelines\n   - Optimize model performance\n   - Ensure model reproducibility\n\n3. Integration & Deployment\n   - Design API interfaces for model serving\n   - Implement model deployment pipelines\n   - Ensure seamless integration with applications\n   - Monitor model performance in production\n\n4. Quality & Ethics\n   - Implement model testing and validation\n   - Ensure ethical AI principles\n   - Monitor and prevent bias\n   - Maintain model documentation\n\n## Process Workflow\n\n1. Requirements Analysis\n   - Analyze AI/ML requirements\n   - Assess data availability and quality\n   - Identify technical constraints\n   - Define success metrics\n\n2. Architecture Design\n   - Design model architecture\n   - Plan data pipelines\n   - Define deployment strategy\n   - Specify hardware requirements\n\n3. Model Development\n   - Preprocess and validate data\n   - Develop and train models\n   - Optimize model performance\n   - Implement testing procedures\n\n4. Integration\n   - Design API interfaces\n   - Implement deployment pipelines\n   - Set up monitoring systems\n   - Document integration points\n\n5. Testing & Validation\n   - Validate model performance\n   - Test integration points\n   - Verify ethical compliance\n   - Assess resource utilization\n\n6. Deployment & Monitoring\n   - Deploy models to production\n   - Monitor performance metrics\n   - Track resource usage\n   - Handle model updates ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "AI Engineer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "ModelArchitect",
+                    "description": "A tool for designing AI/ML model architectures, selecting appropriate frameworks,\nand planning model deployment strategies.",
+                    "parameters": {
+                        "properties": {
+                            "requirements": {
+                                "description": "Project requirements including task type, data characteristics, and performance targets",
+                                "title": "Requirements",
+                                "type": "object"
+                            },
+                            "design_type": {
+                                "description": "Type of design needed: 'model_architecture', 'training_pipeline', 'deployment_strategy', or 'optimization'",
+                                "title": "Design Type",
+                                "type": "string"
+                            },
+                            "constraints": {
+                                "anyOf": [
+                                    {
+                                        "type": "object"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Optional constraints like hardware limitations, latency requirements, or memory bounds",
+                                "title": "Constraints"
+                            }
+                        },
+                        "required": [
+                            "design_type",
+                            "requirements"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "ModelTrainer",
+                    "description": "A tool for training, optimizing, and evaluating AI/ML models,\nincluding data preprocessing, training pipeline setup, and performance monitoring.",
+                    "parameters": {
+                        "properties": {
+                            "training_config": {
+                                "description": "Training configuration including model architecture, data settings, and hyperparameters",
+                                "title": "Training Config",
+                                "type": "object"
+                            },
+                            "training_phase": {
+                                "description": "Phase of training: 'preprocessing', 'training', 'evaluation', or 'optimization'",
+                                "title": "Training Phase",
+                                "type": "string"
+                            },
+                            "monitoring_config": {
+                                "anyOf": [
+                                    {
+                                        "type": "object"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Optional configuration for monitoring training progress and performance",
+                                "title": "Monitoring Config"
+                            }
+                        },
+                        "required": [
+                            "training_config",
+                            "training_phase"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "Full-Stack Developer",
+                                    "Mobile Developer",
+                                    "UI/UX Designer",
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "Full-Stack Developer: Full-Stack Developer responsible for implementing both frontend and backend components, ensuring seamless integration between all layers of the system while following best practices.\nMobile Developer: Mobile Developer responsible for creating high-quality, performant mobile applications for both iOS and Android platforms, ensuring seamless user experiences and efficient resource usage.\nUI/UX Designer: UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.\nQA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.3,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_WEWhMoRKmG5BrQAPQ8k0QTlS",
+        "created_at": 1733878713,
+        "description": "Full-Stack Developer responsible for implementing both frontend and backend components, ensuring seamless integration between all layers of the system while following best practices.",
+        "instructions": "agency_manifesto.md\n\n# Full-Stack Developer Agent\n\n## Agent Role\nAs the Full-Stack Developer, I am responsible for implementing both frontend and backend components of our applications, ensuring seamless integration between all layers of the system. I focus on creating robust, scalable, and maintainable code while following best practices and architectural guidelines.\n\n## Goals\n1. Frontend Development\n   - Implement responsive and interactive user interfaces\n   - Ensure optimal performance and accessibility\n   - Integrate with backend APIs effectively\n   - Implement state management and data flow\n\n2. Backend Development\n   - Design and implement RESTful/GraphQL APIs\n   - Develop efficient database schemas and queries\n   - Implement business logic and data processing\n   - Ensure security and data validation\n\n3. System Integration\n   - Integrate AI/ML models into applications\n   - Implement authentication and authorization\n   - Set up API documentation and testing\n   - Ensure cross-component compatibility\n\n4. Code Quality & Performance\n   - Write clean, maintainable code\n   - Implement comprehensive testing\n   - Optimize application performance\n   - Follow security best practices\n\n## Process Workflow\n\n1. Requirements Analysis\n   - Review technical specifications\n   - Analyze system requirements\n   - Plan implementation approach\n   - Identify dependencies\n\n2. Frontend Development\n   - Set up frontend architecture\n   - Implement UI components\n   - Integrate with backend APIs\n   - Implement state management\n\n3. Backend Development\n   - Design API endpoints\n   - Implement database models\n   - Develop business logic\n   - Set up authentication\n\n4. Integration\n   - Connect frontend and backend\n   - Integrate AI/ML components\n   - Implement error handling\n   - Set up logging and monitoring\n\n5. Testing & Optimization\n   - Write unit and integration tests\n   - Perform performance testing\n   - Optimize code and queries\n   - Conduct security testing\n\n6. Documentation & Deployment\n   - Write technical documentation\n   - Document API endpoints\n   - Set up deployment pipelines\n   - Monitor system health ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "Full-Stack Developer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "BackendDeveloper",
+                    "description": "A tool for implementing backend components, APIs, database models,\nand business logic.",
+                    "parameters": {
+                        "properties": {
+                            "api_spec": {
+                                "description": "API specifications including endpoints, models, and business logic requirements",
+                                "title": "Api Spec",
+                                "type": "object"
+                            },
+                            "development_type": {
+                                "description": "Type of development needed: 'api', 'database', 'auth', or 'integration'",
+                                "title": "Development Type",
+                                "type": "string"
+                            },
+                            "framework": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "FastAPI",
+                                "description": "Backend framework to use: 'FastAPI', 'Django', or 'Express'",
+                                "title": "Framework"
+                            }
+                        },
+                        "required": [
+                            "api_spec",
+                            "development_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "FrontendDeveloper",
+                    "description": "A tool for implementing frontend components, managing state,\nand ensuring optimal user experience.",
+                    "parameters": {
+                        "properties": {
+                            "component_spec": {
+                                "description": "Specifications for the frontend component including requirements and design details",
+                                "title": "Component Spec",
+                                "type": "object"
+                            },
+                            "development_type": {
+                                "description": "Type of development needed: 'component', 'page', 'state_management', or 'integration'",
+                                "title": "Development Type",
+                                "type": "string"
+                            },
+                            "framework": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "React",
+                                "description": "Frontend framework to use: 'React', 'Vue', or 'Angular'",
+                                "title": "Framework"
+                            }
+                        },
+                        "required": [
+                            "component_spec",
+                            "development_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "Mobile Developer",
+                                    "UI/UX Designer",
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "Mobile Developer: Mobile Developer responsible for creating high-quality, performant mobile applications for both iOS and Android platforms, ensuring seamless user experiences and efficient resource usage.\nUI/UX Designer: UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.\nQA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.4,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_Rt5S1E6XP3sKG69BobcCLR9Z",
+        "created_at": 1733878713,
+        "description": "Mobile Developer responsible for creating high-quality, performant mobile applications for both iOS and Android platforms, ensuring seamless user experiences and efficient resource usage.",
+        "instructions": "agency_manifesto.md\n\n# Mobile Developer Agent\n\n## Agent Role\nAs the Mobile Developer, I am responsible for creating high-quality, performant mobile applications for both iOS and Android platforms. I ensure seamless user experiences, efficient resource usage, and proper integration with backend services while following platform-specific best practices and guidelines.\n\n## Goals\n1. Cross-Platform Development\n   - Implement mobile applications using Flutter/React Native\n   - Ensure consistent behavior across platforms\n   - Optimize performance for different devices\n   - Maintain platform-specific design guidelines\n\n2. Native Integration\n   - Implement platform-specific features\n   - Integrate native SDKs and APIs\n   - Handle device permissions and capabilities\n   - Optimize native performance\n\n3. Mobile Architecture\n   - Design scalable mobile architectures\n   - Implement state management solutions\n   - Handle offline capabilities\n   - Manage app lifecycle\n\n4. Quality & Performance\n   - Ensure app responsiveness\n   - Optimize memory and battery usage\n   - Implement comprehensive testing\n   - Handle different screen sizes and orientations\n\n## Process Workflow\n\n1. Requirements Analysis\n   - Review mobile requirements\n   - Analyze platform constraints\n   - Plan implementation approach\n   - Identify required native features\n\n2. Architecture Design\n   - Design mobile architecture\n   - Plan state management\n   - Define navigation flow\n   - Plan data persistence\n\n3. UI Implementation\n   - Create responsive layouts\n   - Implement UI components\n   - Handle user interactions\n   - Support different screen sizes\n\n4. Feature Development\n   - Implement business logic\n   - Integrate backend services\n   - Handle offline mode\n   - Implement native features\n\n5. Testing & Optimization\n   - Perform unit testing\n   - Conduct integration testing\n   - Test on different devices\n   - Optimize performance\n\n6. Deployment & Maintenance\n   - Prepare app for stores\n   - Handle app signing\n   - Manage app updates\n   - Monitor app performance ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "Mobile Developer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "CrossPlatformDeveloper",
+                    "description": "A tool for implementing cross-platform mobile applications using\nFlutter or React Native frameworks.",
+                    "parameters": {
+                        "properties": {
+                            "app_spec": {
+                                "description": "Mobile application specifications including features, UI requirements, and platform targets",
+                                "title": "App Spec",
+                                "type": "object"
+                            },
+                            "development_type": {
+                                "description": "Type of development needed: 'ui', 'feature', 'state_management', or 'integration'",
+                                "title": "Development Type",
+                                "type": "string"
+                            },
+                            "framework": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "Flutter",
+                                "description": "Mobile framework to use: 'Flutter' or 'React Native'",
+                                "title": "Framework"
+                            }
+                        },
+                        "required": [
+                            "app_spec",
+                            "development_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "NativeDeveloper",
+                    "description": "A tool for implementing native mobile features, optimizations,\nand platform-specific integrations.",
+                    "parameters": {
+                        "properties": {
+                            "feature_spec": {
+                                "description": "Native feature specifications including platform requirements and integration details",
+                                "title": "Feature Spec",
+                                "type": "object"
+                            },
+                            "development_type": {
+                                "description": "Type of development needed: 'feature', 'optimization', 'integration', or 'platform_service'",
+                                "title": "Development Type",
+                                "type": "string"
+                            },
+                            "platform": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "android",
+                                "description": "Target platform: 'android' or 'ios'",
+                                "title": "Platform"
+                            }
+                        },
+                        "required": [
+                            "development_type",
+                            "feature_spec"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "UI/UX Designer",
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "UI/UX Designer: UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.\nQA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.4,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_SEb11oTTQZLfJi4ZfbIZONMf",
+        "created_at": 1733878714,
+        "description": "UI/UX Designer responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences, ensuring exceptional user experiences while maintaining brand consistency and accessibility standards.",
+        "instructions": "agency_manifesto.md\n\n# UI/UX Designer Agent\n\n## Agent Role\nAs the UI/UX Designer, I am responsible for creating intuitive, accessible, and visually appealing user interfaces and experiences. I ensure that all applications meet modern design standards, follow platform-specific guidelines, and provide exceptional user experiences while maintaining brand consistency and accessibility standards.\n\n## Goals\n1. User Experience Design\n   - Conduct user research and analysis\n   - Create user personas and journeys\n   - Design information architecture\n   - Develop interaction patterns\n\n2. User Interface Design\n   - Create visual design systems\n   - Design responsive layouts\n   - Implement design components\n   - Maintain design consistency\n\n3. Design System Development\n   - Create component libraries\n   - Define design tokens\n   - Establish design guidelines\n   - Document design patterns\n\n4. Accessibility & Usability\n   - Ensure WCAG compliance\n   - Implement inclusive design\n   - Optimize for accessibility\n   - Conduct usability testing\n\n## Process Workflow\n\n1. Research & Analysis\n   - Gather user requirements\n   - Analyze user behavior\n   - Research competitors\n   - Define design goals\n\n2. Information Architecture\n   - Structure content hierarchy\n   - Design navigation flows\n   - Create user flows\n   - Map user journeys\n\n3. Design System\n   - Define design tokens\n   - Create component library\n   - Establish design patterns\n   - Document guidelines\n\n4. UI Implementation\n   - Design responsive layouts\n   - Create visual components\n   - Implement interactions\n   - Ensure consistency\n\n5. Usability Testing\n   - Conduct user testing\n   - Gather feedback\n   - Analyze results\n   - Iterate designs\n\n6. Documentation & Handoff\n   - Create design specifications\n   - Document interactions\n   - Prepare design assets\n   - Support development team ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "UI/UX Designer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "ExperienceDesigner",
+                    "description": "A tool for designing user experiences, information architecture,\nand interaction patterns.",
+                    "parameters": {
+                        "properties": {
+                            "design_spec": {
+                                "description": "Design specifications including user requirements, goals, and constraints",
+                                "title": "Design Spec",
+                                "type": "object"
+                            },
+                            "design_type": {
+                                "description": "Type of design needed: 'research', 'architecture', 'interaction', or 'testing'",
+                                "title": "Design Type",
+                                "type": "string"
+                            },
+                            "platform": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "web",
+                                "description": "Target platform: 'web', 'mobile', or 'desktop'",
+                                "title": "Platform"
+                            }
+                        },
+                        "required": [
+                            "design_spec",
+                            "design_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "InterfaceDesigner",
+                    "description": "A tool for designing user interfaces, visual components,\nand design systems.",
+                    "parameters": {
+                        "properties": {
+                            "design_spec": {
+                                "description": "Design specifications including visual requirements, brand guidelines, and component needs",
+                                "title": "Design Spec",
+                                "type": "object"
+                            },
+                            "design_type": {
+                                "description": "Type of design needed: 'visual', 'components', 'system', or 'prototype'",
+                                "title": "Design Type",
+                                "type": "string"
+                            },
+                            "platform": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "web",
+                                "description": "Target platform: 'web', 'mobile', or 'desktop'",
+                                "title": "Platform"
+                            }
+                        },
+                        "required": [
+                            "design_spec",
+                            "design_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "QA Engineer",
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "QA Engineer: Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.\nDevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.4,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_XPeHNeqgH9qhgx4cBRHvYDIE",
+        "created_at": 1733878714,
+        "description": "Quality Assurance Engineer responsible for ensuring the quality, reliability, and performance of software applications through comprehensive testing strategies and quality analysis.",
+        "instructions": "agency_manifesto.md\n\n# QA Engineer Agent\n\n## Agent Role\nAs the Quality Assurance Engineer, I am responsible for ensuring the quality, reliability, and performance of all software applications developed by the agency. I design and implement comprehensive testing strategies, automate testing processes, and maintain quality standards throughout the development lifecycle.\n\n## Goals\n1. Test Strategy Development\n   - Design comprehensive test plans\n   - Define testing methodologies\n   - Establish quality metrics\n   - Create test coverage strategies\n\n2. Test Automation\n   - Develop automated test suites\n   - Implement CI/CD test integration\n   - Create performance test scripts\n   - Maintain test frameworks\n\n3. Quality Assurance\n   - Conduct manual testing\n   - Perform security testing\n   - Execute performance testing\n   - Validate accessibility compliance\n\n4. Bug Management\n   - Track and document issues\n   - Prioritize bug fixes\n   - Verify bug resolutions\n   - Maintain bug tracking system\n\n## Process Workflow\n\n1. Test Planning\n   - Review requirements\n   - Define test scope\n   - Identify test scenarios\n   - Create test strategy\n\n2. Test Development\n   - Write test cases\n   - Create test scripts\n   - Set up test environments\n   - Configure test tools\n\n3. Test Execution\n   - Run automated tests\n   - Perform manual testing\n   - Execute performance tests\n   - Conduct security scans\n\n4. Bug Tracking\n   - Report issues\n   - Monitor bug status\n   - Verify fixes\n   - Update documentation\n\n5. Test Analysis\n   - Analyze test results\n   - Generate test reports\n   - Identify trends\n   - Make recommendations\n\n6. Process Improvement\n   - Review test coverage\n   - Optimize test suites\n   - Update test processes\n   - Enhance automation ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "QA Engineer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "QualityAnalyzer",
+                    "description": "A tool for analyzing test results, generating quality reports,\nand providing insights for quality improvement.",
+                    "parameters": {
+                        "properties": {
+                            "analysis_config": {
+                                "description": "Analysis configuration including metrics, thresholds, and requirements",
+                                "title": "Analysis Config",
+                                "type": "object"
+                            },
+                            "analysis_type": {
+                                "description": "Type of analysis: 'coverage', 'performance', 'security', or 'accessibility'",
+                                "title": "Analysis Type",
+                                "type": "string"
+                            },
+                            "report_format": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "json",
+                                "description": "Format for the analysis report: 'json', 'html', or 'markdown'",
+                                "title": "Report Format"
+                            }
+                        },
+                        "required": [
+                            "analysis_config",
+                            "analysis_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "TestAutomator",
+                    "description": "A tool for automating various types of tests including unit tests,\nintegration tests, end-to-end tests, and performance tests.",
+                    "parameters": {
+                        "properties": {
+                            "test_config": {
+                                "description": "Test configuration including type, scope, and requirements",
+                                "title": "Test Config",
+                                "type": "object"
+                            },
+                            "test_type": {
+                                "description": "Type of test: 'unit', 'integration', 'e2e', or 'performance'",
+                                "title": "Test Type",
+                                "type": "string"
+                            },
+                            "framework": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Test framework to use (e.g., 'pytest', 'jest', 'cypress', 'k6')",
+                                "title": "Framework"
+                            }
+                        },
+                        "required": [
+                            "test_config",
+                            "test_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "enum": [
+                                    "DevOps Engineer",
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "DevOps Engineer: DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.\nData Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.3,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_CVCzYMHoICa5brHfs27KgesX",
+        "created_at": 1733878714,
+        "description": "DevOps Engineer responsible for implementing and maintaining continuous integration and deployment pipelines, managing cloud infrastructure, and ensuring system reliability and scalability.",
+        "instructions": "agency_manifesto.md\n\n# DevOps Engineer Agent\n\n## Agent Role\nAs the DevOps Engineer, I am responsible for implementing and maintaining the continuous integration and deployment pipeline, managing cloud infrastructure, and ensuring system reliability and scalability. I focus on automating development workflows, optimizing system performance, and maintaining security standards across all environments.\n\n## Goals\n1. CI/CD Pipeline Management\n   - Design and implement CI/CD pipelines\n   - Automate build and deployment processes\n   - Maintain version control systems\n   - Ensure deployment reliability\n\n2. Infrastructure Management\n   - Design cloud architecture\n   - Implement Infrastructure as Code\n   - Manage container orchestration\n   - Optimize resource utilization\n\n3. System Monitoring\n   - Implement monitoring solutions\n   - Set up alerting systems\n   - Track system metrics\n   - Ensure high availability\n\n4. Security & Compliance\n   - Implement security best practices\n   - Manage access controls\n   - Ensure compliance standards\n   - Conduct security audits\n\n## Process Workflow\n\n1. Infrastructure Planning\n   - Assess requirements\n   - Design architecture\n   - Define resource needs\n   - Plan scaling strategy\n\n2. Pipeline Development\n   - Set up version control\n   - Configure build processes\n   - Implement testing stages\n   - Configure deployments\n\n3. Monitoring Setup\n   - Deploy monitoring tools\n   - Configure metrics collection\n   - Set up dashboards\n   - Define alert thresholds\n\n4. Security Implementation\n   - Configure access controls\n   - Implement security policies\n   - Set up vulnerability scanning\n   - Manage certificates\n\n5. Performance Optimization\n   - Analyze system metrics\n   - Identify bottlenecks\n   - Implement improvements\n   - Monitor results\n\n6. Maintenance & Updates\n   - Schedule maintenance\n   - Apply system updates\n   - Perform backups\n   - Document changes ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "DevOps Engineer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "InfrastructureManager",
+                    "description": "A tool for managing cloud infrastructure, deployments,\nand infrastructure as code.",
+                    "parameters": {
+                        "properties": {
+                            "infra_config": {
+                                "description": "Infrastructure configuration including cloud provider, resources, and requirements",
+                                "title": "Infra Config",
+                                "type": "object"
+                            },
+                            "operation_type": {
+                                "description": "Type of operation: 'provision', 'deploy', 'monitor', or 'maintain'",
+                                "title": "Operation Type",
+                                "type": "string"
+                            },
+                            "environment": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "development",
+                                "description": "Target environment: 'development', 'staging', or 'production'",
+                                "title": "Environment"
+                            }
+                        },
+                        "required": [
+                            "infra_config",
+                            "operation_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "PipelineAutomator",
+                    "description": "A tool for managing CI/CD pipelines, automation workflows,\nand deployment processes.",
+                    "parameters": {
+                        "properties": {
+                            "pipeline_config": {
+                                "description": "Pipeline configuration including stages, steps, and requirements",
+                                "title": "Pipeline Config",
+                                "type": "object"
+                            },
+                            "pipeline_type": {
+                                "description": "Type of pipeline: 'build', 'test', 'deploy', or 'release'",
+                                "title": "Pipeline Type",
+                                "type": "string"
+                            },
+                            "environment": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "development",
+                                "description": "Target environment: 'development', 'staging', or 'production'",
+                                "title": "Environment"
+                            }
+                        },
+                        "required": [
+                            "pipeline_config",
+                            "pipeline_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "SendMessage",
+                    "description": "Correctly extracted `SendMessage` with all the required parameters with correct types",
+                    "parameters": {
+                        "$defs": {
+                            "recipient": {
+                                "const": "Data Engineer",
+                                "enum": [
+                                    "Data Engineer"
+                                ],
+                                "title": "recipient",
+                                "type": "string"
+                            }
+                        },
+                        "properties": {
+                            "recipient": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/$defs/recipient"
+                                    }
+                                ],
+                                "description": "Data Engineer: Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.\n"
+                            },
+                            "my_primary_instructions": {
+                                "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",
+                                "title": "My Primary Instructions",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "Specify the task required for the recipient agent to complete. Focus on clarifying what the task entails, rather than providing exact instructions. Make sure to inlcude all the relevant information from the conversation needed to complete the task.",
+                                "title": "Message",
+                                "type": "string"
+                            },
+                            "message_files": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "A list of file IDs to be sent as attachments to this message. Only use this if you have the file ID that starts with 'file-'.",
+                                "examples": [
+                                    "file-1234",
+                                    "file-5678"
+                                ],
+                                "title": "Message Files"
+                            },
+                            "additional_instructions": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Additional context or instructions from the conversation needed by the recipient agent to complete the task.",
+                                "title": "Additional Instructions"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "my_primary_instructions",
+                            "recipient"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.3,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    },
+    {
+        "id": "asst_lQFpT0VxCecH7KsysdTiFpga",
+        "created_at": 1733878714,
+        "description": "Data Engineer responsible for designing, implementing, and maintaining data infrastructure and pipelines, ensuring efficient data collection, processing, storage, and accessibility.",
+        "instructions": "agency_manifesto.md\n\n# Data Engineer Agent\n\n## Agent Role\nAs the Data Engineer, I am responsible for designing, implementing, and maintaining data infrastructure and pipelines. I ensure efficient data collection, processing, storage, and accessibility while maintaining data quality, security, and compliance. I work closely with the AI Engineer to support machine learning workflows and with other team members to provide robust data solutions.\n\n## Goals\n1. Data Infrastructure Design\n   - Design data architecture\n   - Implement data storage solutions\n   - Set up data processing pipelines\n   - Ensure data scalability\n\n2. Data Pipeline Development\n   - Create ETL/ELT pipelines\n   - Implement data validation\n   - Optimize data workflows\n   - Monitor pipeline performance\n\n3. Data Quality Management\n   - Implement data validation rules\n   - Monitor data quality\n   - Handle data cleansing\n   - Maintain data consistency\n\n4. Data Integration\n   - Connect data sources\n   - Implement APIs\n   - Manage data synchronization\n   - Ensure data compatibility\n\n## Process Workflow\n\n1. Requirements Analysis\n   - Gather data requirements\n   - Analyze data sources\n   - Define data models\n   - Plan data flows\n\n2. Infrastructure Setup\n   - Configure databases\n   - Set up data warehouses\n   - Implement data lakes\n   - Deploy processing engines\n\n3. Pipeline Development\n   - Create data pipelines\n   - Implement transformations\n   - Set up scheduling\n   - Configure monitoring\n\n4. Data Validation\n   - Define validation rules\n   - Implement quality checks\n   - Monitor data integrity\n   - Handle exceptions\n\n5. Performance Optimization\n   - Analyze query performance\n   - Optimize data structures\n   - Tune processing jobs\n   - Monitor resource usage\n\n6. Maintenance & Support\n   - Monitor pipelines\n   - Handle data issues\n   - Update documentation\n   - Support data users ",
+        "metadata": {},
+        "model": "gpt-4o-2024-08-06",
+        "name": "Data Engineer",
+        "object": "assistant",
+        "tools": [
+            {
+                "function": {
+                    "name": "DataArchitect",
+                    "description": "A tool for designing and managing data infrastructure,\ndata models, and data flows.",
+                    "parameters": {
+                        "properties": {
+                            "architecture_config": {
+                                "description": "Architecture configuration including data sources, models, and requirements",
+                                "title": "Architecture Config",
+                                "type": "object"
+                            },
+                            "design_type": {
+                                "description": "Type of design: 'infrastructure', 'model', 'pipeline', or 'integration'",
+                                "title": "Design Type",
+                                "type": "string"
+                            },
+                            "environment": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "development",
+                                "description": "Target environment: 'development', 'staging', or 'production'",
+                                "title": "Environment"
+                            }
+                        },
+                        "required": [
+                            "architecture_config",
+                            "design_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "DataPipelineManager",
+                    "description": "A tool for managing data pipelines, ETL/ELT workflows,\nand data processing jobs.",
+                    "parameters": {
+                        "properties": {
+                            "pipeline_config": {
+                                "description": "Pipeline configuration including sources, transformations, and requirements",
+                                "title": "Pipeline Config",
+                                "type": "object"
+                            },
+                            "pipeline_type": {
+                                "description": "Type of pipeline: 'etl', 'elt', 'streaming', or 'batch'",
+                                "title": "Pipeline Type",
+                                "type": "string"
+                            },
+                            "environment": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": "development",
+                                "description": "Target environment: 'development', 'staging', or 'production'",
+                                "title": "Environment"
+                            }
+                        },
+                        "required": [
+                            "pipeline_config",
+                            "pipeline_type"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            }
+        ],
+        "response_format": "auto",
+        "temperature": 0.3,
+        "tool_resources": {
+            "code_interpreter": null,
+            "file_search": null
+        },
+        "top_p": 1.0
+    }
+]
